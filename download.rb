@@ -15,7 +15,7 @@ vod_id = url.split("/")[-1]
 token = JSON.parse(RestClient.get("https://api.twitch.tv/api/vods/#{vod_id}/access_token?as3=t"))
 playlist = RestClient.get("http://usher.justin.tv/vod/#{vod_id}?nauthsig=#{token["sig"]}&nauth=#{token["token"]}")
 
-vid_list_url = playlist.split("\n")[3]
+vid_list_url = playlist.split("\n").select{|l| l.start_with? "http"}[0]
 vid_list = RestClient.get(vid_list_url)
 dl_url = "http://#{vid_list_url.split("/")[2..-2].join("/")}"
 
